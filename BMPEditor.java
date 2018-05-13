@@ -52,14 +52,22 @@ public class BMPEditor {
      */
     public void readInfoHeader() throws IOException, Exception {
         this.ds.readInt(); // skip size of Header
-        this.pWidth = convertInt(this.ds.readInt());
-        this.pHeight = convertInt(Math.abs(this.ds.readInt())); // height may be negative
+        this.pWidth = (int) this.ds.readInt();
+        this.pHeight =  Math.abs((int) this.ds.readInt()); // height may be negative
         this.ds.readShort(); // skip planes
-        this.bpp = convertShort(this.ds.readShort());
+        //this.bpp = (int) this.ds.readShort(); //returns a 16-bit number, which javac interprets as char
+        char i = 6144;
+        char j = 24;
+        System.out.println(i + " " + j);
+        System.out.print("this is masking:");
+        System.out.println(i & j);
+        System.out.println(this.ds.readShort());
+        System.out.println(this.bpp + "\n" + BITS_PER_PIXEL);
         if (this.bpp != BITS_PER_PIXEL) { // must be 24 bpp (assumption)
             throw new Exception("Usage: Only 24 bpp supported");
         }
-        this.compression = this.ds.readInt();
+        this.compression = (int) this.ds.readInt();
+        System.out.println(this.compression + "\n" + COMPRESSION);
         if (this.compression != COMPRESSION) { // must be uncompressed (assumption)
             throw new Exception("Usage: Only uncompressed files supported");
         }
@@ -159,6 +167,8 @@ public class BMPEditor {
 
     public static void main(String[] args) throws IOException, Exception {
         BMPEditor b = new BMPEditor("sample.bmp");
+        b.readHeader();
+        b.readInfoHeader();
         // for (byte i : b.calculateNegative()) {
         //     System.out.println(i);
         // }
