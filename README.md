@@ -6,6 +6,7 @@
   * For each color in a pixel: 255 - (original byte)
   * Colors of a pixel are: red, green, blue 
 * Limitations: Only works if uncompressed AND 24 bits per pixel
+  * Handled by throwing Exceptions for each of these limitations
 
 ## How to Run ##
 1. Compile with javac BMPEditor.java
